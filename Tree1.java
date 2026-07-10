@@ -44,12 +44,54 @@ public class Tree1{
             Node curr = q.remove();
             System.out.print(curr.data + " ");
             if(curr.left != null){
-                q.add(curr.left);
+                q.offer(curr.left);
             }
             if(curr.right != null){
-                q.add(curr.right);
+                q.offer(curr.right);
             }
         }
+        
+    }
+
+    static Node buildTree(int[] arr){
+        if(arr.length == 0){
+            return null;
+        }
+        Queue<Node> q = new LinkedList<>();
+        Node root = new Node(arr[0]);
+        q.offer(root);
+        int j =1;
+        while(j!= arr.length && !q.isEmpty()){
+            Node curr = q.poll();
+            if(curr != null){
+                if(j < arr.length && arr[j] != -1){
+                    curr.left = new Node(arr[j]);
+                    q.offer(curr.left);
+                }
+                j++;
+                if(j < arr.length && arr[j] != -1){
+                    curr.right = new Node(arr[j]);
+                    q.offer(curr.right);
+                }
+                j++;
+            }
+        }
+        return root;
+    }
+    static boolean isSymmetric(Node root1, Node root2){
+        if(root1 == null && root2 == null){
+            return true;
+        }
+        if(root1 == null || root2 == null){
+            return false;
+        }
+        if(root1.data != root2.data){
+            return false;
+        }
+        return root1.data == root2.data && isSymmetric(root1.left, root2.right) && isSymmetric(root1.right, root2.left);
+    }
+    static boolean isMirror(){
+        
     }
     public static void main(String[] args){
         Node root = new Node(1);
@@ -58,11 +100,26 @@ public class Tree1{
         root.left.left = new Node(4);
         root.left.right = new Node(5);
         root.right.left = new Node(6);
-        preOrder(root);
+        /*preOrder(root);
         System.out.println();
         inOrder(root);
         System.out.println();
         postOrder(root);
+        System.out.println();
+        levelOrder(root);
+        System.out.println();
+        */
+        int[] arr = {1,2,3,4,5,6};
+        Node root1 = buildTree(arr);
+        preOrder(root1);
+        System.out.println();
+        inOrder(root1);
+        System.out.println();
+        postOrder(root1);
+        System.out.println();
+        levelOrder(root1);
+        System.out.println();
+        System.out.println(isSymmetric(root1.left, root1.right));
     }
 }
 /* Preorder - Node left right
